@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Accountant payslip editing</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link th:rel="stylesheet" th:href="@{/css/own.css}" />
+
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg nav-red static-top" >
+    <div class="container">
+        <img src="/img/Logo.png" alt="Logo" style="max-width: 100px; max-height: 100px;">
+        <a class="navbar-brand"  href="/">Oceanarium Warszawskie</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item active ">
+                    <a class="nav-link" th:href="@{/index}">Strona główna</a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/main}">Main
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:inline="text" style="color:black;">Jesteś zalogowany jako <b
+                            style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
+                </li>
+                <form id="LogOutForm" method="post" th:action="@{/index}">
+                    <button class="btn btn-secondary" style="background-color:#f8f8ff; border-color:#f8f8ff; color:black" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj się
+                    </button>
+                </form>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div align="center">
+    <h1>Wprowadź nowe dane pracownika</h1>
+    <br/>
+
+    <form action="#" th:action="@{/main_admin/update_employee}" th:object="${pracownik}" method="post">
+        <table border="1" cellpadding="10">
+            <tr>
+                <td>ID:</td>
+                <td><input type="text" th:field="*{id_pracownika}" readonly="readonly"></td>
+            </tr>
+            <tr>
+                <td>Imię:</td>
+                <td><input type="text" th:field="*{imie}" required></td>
+            </tr>
+            <tr>
+                <td>Drugie imię:</td>
+                <td><input type="text" th:field="*{drugie_imie}"></td>
+            </tr>
+            <tr>
+                <td>Nazwisko:</td>
+                <td><input type="text" th:field="*{nazwisko}" required></td>
+            </tr>
+            <tr>
+                <td>Data urodzenia:</td>
+                <td><input type="date" th:field="*{data_urodzenia}" required></td>
+            </tr>
+            <tr>
+                <td>PESEL:</td>
+                <td><input type="text" th:field="*{pesel}" minlength="11" maxlength="11"></td>
+            </tr>
+            <tr>
+                <td>Płeć:</td>
+                <td><input type="text" th:field="*{plec}" required pattern="^[KM]$"></td>
+            </tr>
+            <tr>
+                <td>E-mail:</td>
+                <td><input type="email" th:field="*{adres_email}" required></td>
+            </tr>
+            <tr>
+                <td>Stanowisko:</td>
+                <td><input type="text" th:field="*{stanowisko}" required></td>
+            </tr>
+            <tr>
+                <td>Data zatrudnienia:</td>
+                <td><input type="date" th:field="*{data_zatrudnienia}" required></td>
+            </tr>
+            <tr>
+                <td>Numer konta:</td>
+                <td><input type="text" th:field="*{nr_konta}" required minlength="8" maxlength="17"></td>
+            </tr>
+            <tr>
+                <td>Numer telefonu:</td>
+                <td><input type="text" th:field="*{numer_telefonu}" required minlength="6" maxlength="15"></td>
+            </tr>
+            <tr>
+                <td>ID Sklepu:</td>
+                <td><input type="text" th:field="*{id_sklepu}" ></td>
+            </tr>
+            <tr>
+                <td>ID Adresu:</td>
+                <td><input type="text" th:field="*{id_adresu}" required ></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">Zapisz</button></td>
+            </tr>
+        </table>
+    </form>
+
+
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/logout.js}"></script>
+
+</body>
+</html>

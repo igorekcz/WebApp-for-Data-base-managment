@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Main Employee Page</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link th:rel="stylesheet" th:href="@{/css/own.css}" />
+    <link href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.css" rel="stylesheet">
+
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg nav-employee static-top" >
+    <div class="container">
+        <img src="/img/Logo.png" alt="Logo" style="max-width: 100px; max-height: 100px;">
+        <a class="navbar-brand" style="color:white;" href="/">Oceanarium Warszawskie</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item active ">
+                    <a class="nav-link" style="color:white;" th:href="@{/index}">Strona główna</a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" style="color:white;" th:href="@{/main}">Main
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:inline="text" style="color:white;">Jesteś zalogowany jako <b
+                            style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
+                </li>
+                <form id="LogOutForm" method="post" th:action="@{/index}">
+                    <button class="btn btn-secondary" style="background-color:#f8f8ff; border-color:#f8f8ff; color:black" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj się
+                    </button>
+                </form>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-10 mt-5">
+                <div class="form-group">
+                    <label style="font-size:30px" th:inline="text">Witaj <a
+                            style="color:blue; text-transform:capitalize"><b>[[${#httpServletRequest.remoteUser}]]</b></a>
+                        na stronie głównej pracowników Oceanarium Warszawskiego!</label>
+                    <div style="font-size:20px">Poniżej możesz przeglądać swoje wynagrodzenia lub sprawdzić poprawność swoich danych.</div>
+                </div>
+            <a href="/main_employee/data_on_record">
+                <button class="btn btn-primary" >Sprawdź swoje dane</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<br/><br>
+
+<div class="card mb-4" id="card1">
+    <div class="card-header">
+        Twoje wypłaty
+    </div>
+    <div class="card-body">
+        <table id="wynagrodzenia" class="datatable-table" border="1" cellpadding="10">
+
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Data zakwitowania</th>
+                <th>Pensja</th>
+                <th>Premia</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="wynagrodzenie : ${wynagrodzeniaList}">
+                <td th:text="${wynagrodzenie.id_wynagrodzenia}">ID</td>
+                <td th:text="${wynagrodzenie.data_zakwitowania}">Data zakwitowania</td>
+                <td th:text="${wynagrodzenie.pensja_podstawowa}">Pensja</td>
+                <td th:text="${wynagrodzenie.premia}">Premia</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/logout.js}"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#wynagrodzenia').DataTable();
+    });
+</script>
+
+
+</body>
+</html>

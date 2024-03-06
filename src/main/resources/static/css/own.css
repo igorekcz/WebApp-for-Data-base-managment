@@ -1,0 +1,45 @@
+#card1 {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+/* Add CSS styling for the table container */
+.table-container {
+    overflow-x: auto;
+}
+/* Optional: Add styling for the table */
+table {
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}
+.nav-red {
+    background-color: #bd1729;
+    color: rgba(255, 255, 255, 0.5);
+}
+.nav-green {
+    background-color: #157210;
+    color: rgba(255, 255, 255, 0.5);
+}
+.nav-employee {
+    background-color: #032072;
+    color: rgba(255, 255, 255, 0.5);
+}
+.nav-user {
+    background-color: #049398;
+    color: rgba(255, 255, 255, 0.5);
+}
+.nav-index {
+    background-color: #218a91;
+    color: rgba(255, 255, 255, 0.5);
+}
+.bottom-index {
+    background-color: #505a5d;
+    color: rgba(255, 255, 255, 0.5);
+}

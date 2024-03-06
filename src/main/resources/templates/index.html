@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Welcome Page</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link th:rel="stylesheet" th:href="@{/css/own.css}" />
+
+</head>
+
+<!--<style th:inline="text">-->
+<!--    body {-->
+<!--        background: url(https://www.msc.org/images/default-source/msc-english/content-banner/content-hero-images-1920px-x-1080px/rs14483_istock-104669275-ocean-wave-breaking.jpg?sfvrsn=9c452f0_11)-->
+<!--        center center fixed;-->
+<!--        background-size: contain;-->
+<!--    }-->
+<!--</style>-->
+
+
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg nav-index static-top" >
+    <div class="container">
+        <img src="/img/Logo.png" alt="Logo" style="max-width: 100px; max-height: 100px;">
+        <a class="navbar-brand"  href="/">Oceanarium Warszawskie</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item active ">
+                    <a class="nav-link" th:href="@{/index}">Strona główna</a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/main}">Main
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <th:block th:if="${#httpServletRequest.remoteUser != null}">
+                        <a class="nav-link" th:inline="text" style="color:black;">Jesteś zalogowany jako <b
+                                style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
+                    </th:block>
+                    <th:block th:unless="${#httpServletRequest.remoteUser != null}">
+                        <a class="nav-link" href="/login" style="color: black;">Zaloguj się</a>
+                    </th:block>
+                </li>
+
+                <li class="nav-item">
+                    <th:block th:if="${#httpServletRequest.remoteUser != null}">
+                        <form id="LogOutForm" method="post" th:action="@{/index}">
+                            <button th:align="center" class="btn btn-primary" style="background-color:#f8f8ff; border-color:#f8f8ff; color:black" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj się</button>
+                        </form>
+                    </th:block>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!--Using images in page    -->
+<!--<img th:src="@{assets/img/png.png}" alt="Image" class="img-fluid">-->
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mt-5" style="background: rgba(255,255,255,0.5); margin: auto">
+
+            <label style="font-size:30px">Witaj w Oceanarium Warszawskim!</label>
+            <div style="font-size:20px">Poniżej możesz zapoznać się ze zwierzętami które możesz podziwiać w naszych skromnych progach.</br>
+                Jeśli jesteś już gotów nas odwiedzić możesz zalogować się w prawym górnym rogu i wygodnie zakupić bilety online - bez kolejek.
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div align="center">
+    <h1 th:color="white">Nasze zwierzaki morskie</h1>
+
+    <table border="1" cellpadding="10" style="background: rgba(255,255,255,0.5)">
+
+        <thead>
+        <tr>
+            <th>Gatunek</th>
+            <th>Imię</th>
+            <th>Data urodzenia</th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="zwierze : ${zwierzeList}">
+            <td th:text="${zwierze.gatunek}">Gatunek</td>
+            <td th:text="${zwierze.imie}">Imię</td>
+            <td th:text="${zwierze.data_urodzenia}">Data urodzenia</td>
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+
+<div class="fixed-bottom bottom-index p-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Informacje kontaktowe</h2>
+                <p>Adres: Nowowiejska 15/19, 00-665 Warszawa</p>
+                <p>Phone: 22 234 74 97</p>
+                <p>Email: BOK@OceanariumWaw.pl</p>
+            </div>
+            <div class="col-md-6">
+                <h2>Jak nas znaleźć</h2>
+                <div class="zoomable-container">
+                <img src="/img/Map.png" alt="Map" class="img-fluid zoomable-image" style="max-width: 400px; max-height: 300px">
+                <!-- Replace "/img/map-image.jpg" with the actual path to your map image --></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background: rgb(100, 100, 100) url('/img/bg.webp') no-repeat center center fixed;
+        background-size: cover;
+        background-blend-mode: lighten;
+    }
+    .zoomable-image {
+        transition: ease-in-out;
+    }
+    .zoomable-container {
+        width: 400px; /* Set the container size */
+        height: 300px; /* Set the container size */
+        overflow: hidden;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var container = document.querySelector(".zoomable-container");
+        var image = document.querySelector(".zoomable-image");
+
+        container.addEventListener("mousemove", function(e) {
+            var rect = container.getBoundingClientRect();
+            var mouseX = e.clientX - rect.left - 200;
+            var mouseY = e.clientY - rect.top - 150;
+
+            var percentX = mouseX / rect.width;
+            var percentY = mouseY / rect.height;
+
+            var scale = 2;
+            var translateX = -(scale - 1) * percentX * rect.width;
+            var translateY = -(scale - 1) * percentY * rect.height;
+
+            image.style.transform = "scale(" + scale + ") translate(" + translateX + "px, " + translateY + "px)";
+        });
+
+        container.addEventListener("mouseleave", function() {
+            image.style.transform = "scale(1) translate(0, 0)";
+        });
+    });
+</script>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/logout.js}"></script>
+
+</body>
+</html>
