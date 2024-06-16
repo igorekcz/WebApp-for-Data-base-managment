@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edycja roli użytkownika</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}"/>
+    <style>
+        body {
+            background: rgb(100, 100, 100) url('/img/bg.webp') no-repeat center center fixed;
+            background-size: cover;
+            background-blend-mode: lighten;
+            padding-top: 56px;
+        }
+        .container-custom {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .navbar-brand {
+            font-size: 1.5em;
+        }
+        .content-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            border: none;
+            font-size: 1em;
+        }
+        table {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin: auto;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <img src="/img/Logo.png" alt="Logo" style="max-width: 100px; max-height: 100px;">
+        <a class="navbar-brand" href="/">Oceanarium Warszawskie</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/index}">Strona główna</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/main}">Main</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">Jesteś zalogowany jako <b style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
+                </li>
+                <li class="nav-item">
+                    <form id="LogOutForm" method="post" th:action="@{/index}">
+                        <button class="btn btn-secondary btn-custom" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj się</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container container-custom">
+    <div class="row justify-content-center">
+        <div class="col-md-8 mt-5 content-box text-center">
+            <h1>Wprowadź nową rolę użytkownika</h1>
+            <br/>
+            <form action="#" th:action="@{/main_admin/update_user}" th:object="${user}" method="post">
+                <table class="table table-bordered">
+                    <tr>
+                        <td>ID:</td>
+                        <td><input type="text" th:field="*{id_uzytkownika}" readonly="readonly"></td>
+                    </tr>
+                    <tr>
+                        <td>Nazwa użytkownika:</td>
+                        <td><input type="text" th:field="*{username}" required></td>
+                    </tr>
+                    <tr>
+                        <td>Rola:</td>
+                        <td>
+                            <select th:field="*{rola}">
+                                <option value="USER">USER</option>
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="EMPLOYEE">EMPLOYEE</option>
+                                <option value="ACCOUNTANT">ACCOUNTANT</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center"><button class="btn btn-custom" type="submit">Zapisz</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/logout.js}"></script>
+
+</body>
+</html>
