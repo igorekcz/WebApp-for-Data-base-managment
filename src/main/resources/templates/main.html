@@ -1,78 +1,164 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Main Page</title>
-
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-
+    <title>Strona główna</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}"/>
+    <style>
+        body {
+            background: rgb(100, 100, 100) url('/img/bg.webp') no-repeat center center fixed;
+            background-size: cover;
+            background-blend-mode: lighten;
+            padding-top: 56px;
+        }
+        .container-custom {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .navbar-brand {
+            font-size: 1.5em;
+        }
+        .welcome-text {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            border: none;
+            font-size: 1em;
+        }
+        .content-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .bottom-spacing {
+            height: 800px; /* Adjust this value to push the footer lower */
+        }
+        .footer-content {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .additional-spacing {
+            margin-bottom: 100px; /* Increase this value if more space is needed */
+        }
+    </style>
 </head>
 <body>
 
-<!--<script>-->
-<!--    setTimeout(function(){-->
-<!--        window.location.href = 'https://www.tutorialspoint.com/javascript/';-->
-<!--    }, 5000);-->
-<!--</script>-->
-
-<!--<script type="text/javascript">-->
-<!--    function Redirect()-->
-<!--    {-->
-<!--        window.location="http://www.wp.pl";-->
-<!--    }-->
-<!--    document.write("[[${#httpServletRequest.remoteUser}]] You will be redirected to a new page in 5 seconds");-->
-<!--    setTimeout('Redirect()', 5000);-->
-<!--</script>-->
-
-
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/">BDBT Spring Boot Project - Part II</a>
+        <a class="navbar-brand" href="/">Oceanarium Warszawskie</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive"
-                aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/index}">Home</a>
+                    <a class="nav-link" th:href="@{/index}">Strona główna</a>
                 </li>
-
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Main
+                    <a class="nav-link" href="#">Główna
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-
                 <li class="nav-item">
-                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">You are logged in as <b style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
+                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">
+                        Jesteś zalogowany jako <b style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b>
+                    </a>
                 </li>
-
             </ul>
         </div>
     </div>
 </nav>
 
-<div class="container">
-    <div class="row">
-
-        <div class="col-md-10 mt-5">
-            <form method="post" th:action="@{/index}">
-                <div class="form-group">
-                    <label th:inline="text">Welcome <a style="color:lightskyblue; text-transform:capitalize"><b>[[${#httpServletRequest.remoteUser}]]</b></a> to the main page!</label>
-                    <div>If you want to logout, click "Logout" button under this text.</div>
+<div class="container container-custom">
+    <div class="row justify-content-center">
+        <div class="col-md-8 mt-5">
+            <div class="card content-box">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Witamy na stronie głównej</h5>
+                    <p class="card-text text-center welcome-text">
+                        Witaj <span style="color:lightskyblue; text-transform:capitalize"><b>[[${#httpServletRequest.remoteUser}]]</b></span> na stronie głównej!
+                        Jeśli chcesz się wylogować, kliknij przycisk "Wyloguj się" poniżej.
+                    </p>
+                    <div class="text-center">
+                        <form method="post" th:action="@{/index}">
+                            <button class="btn btn-custom btn-block" type="submit" value="Sign Out">Wyloguj się</button>
+                        </form>
+                    </div>
                 </div>
-
-                <button class="btn btn-primary" type="submit" onclick="successfullyLogout()" value="Sign Out">Logout</button>
-            </form>
+            </div>
         </div>
-
+    </div>
+    <div class="row justify-content-center additional-spacing">
+        <div class="col-md-10 mt-5 content-box">
+            <h1 class="text-center">Nasze zwierzaki morskie</h1>
+            <table class="table table-bordered" style="background: rgba(255,255,255,0.8)">
+                <thead>
+                <tr>
+                    <th>Gatunek</th>
+                    <th>Imię</th>
+                    <th>Data urodzenia</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="zwierze : ${zwierzeList}">
+                    <td th:text="${zwierze.gatunek}">Gatunek</td>
+                    <td th:text="${zwierze.imie}">Imię</td>
+                    <td th:text="${zwierze.data_urodzenia}">Data urodzenia</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Additional content to make the page longer -->
+    <div class="row justify-content-center additional-spacing">
+        <div class="col-md-10 mt-5 content-box">
+            <h1 class="text-center">Więcej o naszych zwierzakach</h1>
+            <p class="text-center welcome-text">
+                Oceanarium Warszawskie jest domem dla wielu unikalnych gatunków morskich. Każdy z nich ma swoją własną, wyjątkową historię i cechy.
+                Zapraszamy do bliższego poznania naszych podopiecznych i odkrycia fascynującego świata podwodnego życia.
+            </p>
+        </div>
+    </div>
+    <div class="row justify-content-center additional-spacing">
+        <div class="col-md-10 mt-5 content-box">
+            <h1 class="text-center">Nasze programy edukacyjne</h1>
+            <p class="text-center welcome-text">
+                Oceanarium Warszawskie oferuje szereg programów edukacyjnych dla dzieci i dorosłych. Nasze zajęcia mają na celu zwiększenie świadomości
+                ekologicznej i promowanie ochrony środowiska morskiego. Dołącz do naszych warsztatów i dowiedz się więcej o oceanach i ich mieszkańcach.
+            </p>
+        </div>
     </div>
 </div>
 
+<div class="bottom-spacing"></div>
+
+
+<div class="footer-content p-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Informacje kontaktowe</h2>
+                <p>Adres: Nowowiejska 15/19, 00-665 Warszawa</p>
+                <p>Telefon: 22 234 74 97</p>
+                <p>Email: BOK@OceanariumWaw.pl</p>
+            </div>
+            <div class="col-md-6">
+                <h2>Jak nas znaleźć</h2>
+                <div class="zoomable-container">
+                    <img src="/img/Map.png" alt="Map" class="img-fluid zoomable-image" style="max-width: 400px; max-height: 300px">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>

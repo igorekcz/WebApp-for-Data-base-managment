@@ -1,33 +1,60 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Error Page</title>
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <title>Błąd 403</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}"/>
+    <style>
+        body {
+            background: rgb(100, 100, 100) url('/img/bg.webp') no-repeat center center fixed;
+            background-size: cover;
+            background-blend-mode: lighten;
+            padding-top: 56px;
+        }
+        .container-custom {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .navbar-brand {
+            font-size: 1.5em;
+        }
+        .content-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            border: none;
+            font-size: 1em;
+        }
+    </style>
 </head>
 <body>
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+<!-- Nawigacja -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <img src="/img/Logo.png" alt="Logo" style="max-width: 100px; max-height: 100px;">
         <a class="navbar-brand" href="/">Oceanarium Warszawskie</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive"
-                aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </nav>
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 mt-5">
-            <form method="post" th:action="@{/index}">
+<div class="container container-custom">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="content-box text-center">
                 <div class="form-group">
-                    <div><b><p style="font-size:30px">Error</p></b></div>
-                    <div><p style="font-size:24px">403 - Forbidden page</p></div>
+                    <h1 class="text-danger">Błąd</h1>
+                    <h2>403 - Strona zabroniona</h2>
                 </div>
-                <button class="btn btn-primary" type="submit" value="Sign In">Back to home page</button>
-            </form>
+                <form method="post" th:action="@{/index}">
+                    <button class="btn btn-custom" type="submit" value="Powrót do strony głównej">Powrót do strony głównej</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

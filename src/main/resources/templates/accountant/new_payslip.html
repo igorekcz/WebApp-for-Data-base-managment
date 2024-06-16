@@ -1,84 +1,101 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Accountant payslip creation</title>
-
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-    <link th:rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link th:rel="stylesheet" th:href="@{/css/own.css}" />
-
+    <title>Tworzenie płac księgowych</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}"/>
+    <style>
+        body {
+            background: rgb(100, 100, 100) url('/img/bg.webp') no-repeat center center fixed;
+            background-size: cover;
+            background-blend-mode: lighten;
+            padding-top: 56px;
+        }
+        .container-custom {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .navbar-brand {
+            font-size: 1.5em;
+        }
+        .content-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            border: none;
+            font-size: 1em;
+        }
+    </style>
 </head>
 <body>
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg nav-green static-top" >
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <img src="/img/Logo.png" alt="Logo" style="max-width: 100px; max-height: 100px;">
-        <a class="navbar-brand"  href="/">Oceanarium Warszawskie</a>
+        <a class="navbar-brand" href="/">Oceanarium Warszawskie</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive"
-                aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-
-                <li class="nav-item active ">
+                <li class="nav-item active">
                     <a class="nav-link" th:href="@{/index}">Strona główna</a>
                 </li>
-
-                <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/main}">Main
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-
                 <li class="nav-item">
-                    <a class="nav-link" th:inline="text" style="color:black;">Jesteś zalogowany jako <b
-                            style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
+                    <a class="nav-link" th:href="@{/main}">Main</a>
                 </li>
-                <form id="LogOutForm" method="post" th:action="@{/index}">
-                    <button class="btn btn-primary" style="background-color:#f8f8ff; border-color:#f8f8ff; color:black" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj się
-                    </button>
-                </form>
+                <li class="nav-item">
+                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">Jesteś zalogowany jako <b style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
+                </li>
+                <li class="nav-item">
+                    <form id="LogOutForm" method="post" th:action="@{/index}">
+                        <button class="btn btn-secondary btn-custom" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj się</button>
+                    </form>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 
-
-<div align="center">
-    <h1>Wprowadź dane nowego wynagrodzenia</h1>
-    <br/>
-
-    <form action="#" th:action="@{/main_accountant/save}" th:object="${wynagrodzenie}" method="post">
-        <table border="1" cellpadding="10">
-            <tr>
-                <td>Data zakwitowania:</td>
-                <td><input type="date" th:field="*{data_zakwitowania}" required></td>
-            </tr>
-            <tr>
-                <td>Pensja podstawowa:</td>
-                <td><input type="text" th:field="*{pensja_podstawowa}" required pattern="^\d+(\.\d+)?$"></td>
-            </tr>
-            <tr>
-                <td>Premia:</td>
-                <td><input type="text" th:field="*{premia}" pattern="^\d+(\.\d+)?$"></td>
-            </tr>
-            <tr>
-                <td>ID Pracownika:</td>
-                <td><input type="text" th:field="*{id_pracownika}" pattern="^[1-9]\d*$"></td>
-            </tr>
-            <tr>
-                <td colspan="2"><button class="btn btn-primary" type="submit">Zapisz</button></td>
-            </tr>
-        </table>
-    </form>
-
-
+<div class="container container-custom">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="content-box text-center">
+                <h1>Wprowadź dane nowego wynagrodzenia</h1>
+                <br/>
+                <form action="#" th:action="@{/main_accountant/save}" th:object="${wynagrodzenie}" method="post">
+                    <table class="table">
+                        <tr>
+                            <td>Data zakwitowania:</td>
+                            <td><input type="date" th:field="*{data_zakwitowania}" required></td>
+                        </tr>
+                        <tr>
+                            <td>Pensja podstawowa:</td>
+                            <td><input type="text" th:field="*{pensja_podstawowa}" required pattern="^\d+(\.\d+)?$"></td>
+                        </tr>
+                        <tr>
+                            <td>Premia:</td>
+                            <td><input type="text" th:field="*{premia}" pattern="^\d+(\.\d+)?$"></td>
+                        </tr>
+                        <tr>
+                            <td>ID Pracownika:</td>
+                            <td><input type="text" th:field="*{id_pracownika}" pattern="^[1-9]\d*$"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><button class="btn btn-primary btn-custom" type="submit">Zapisz</button></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>

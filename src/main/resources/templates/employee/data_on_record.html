@@ -1,137 +1,156 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Employee data lookup</title>
-
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-    <link th:rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link th:rel="stylesheet" th:href="@{/css/own.css}" />
+    <title>Pracownicy</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}"/>
     <link href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.css" rel="stylesheet">
-
+    <style>
+        body {
+            background: rgb(100, 100, 100) url('/img/bg.webp') no-repeat center center fixed;
+            background-size: cover;
+            background-blend-mode: lighten;
+            padding-top: 56px;
+        }
+        .container-custom {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .navbar-brand {
+            font-size: 1.5em;
+        }
+        .content-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            border: none;
+            font-size: 1em;
+        }
+        .table-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg nav-employee static-top" >
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <img src="/img/Logo.png" alt="Logo" style="max-width: 100px; max-height: 100px;">
-        <a class="navbar-brand" style="color:white;" href="/">Oceanarium Warszawskie</a>
+        <a class="navbar-brand" href="/">Oceanarium Warszawskie</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive"
-                aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-
-                <li class="nav-item active ">
-                    <a class="nav-link" style="color:white;" th:href="@{/index}">Strona główna</a>
-                </li>
-
                 <li class="nav-item active">
-                    <a class="nav-link" style="color:white;" th:href="@{/main}">Main
-                        <span class="sr-only">(current)</span>
-                    </a>
+                    <a class="nav-link" th:href="@{/index}">Strona główna</a>
                 </li>
-
                 <li class="nav-item">
-                    <a class="nav-link" th:inline="text" style="color:white;">Jesteś zalogowany jako <b
-                            style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
+                    <a class="nav-link" th:href="@{/main}">Main</a>
                 </li>
-                <form id="LogOutForm" method="post" th:action="@{/index}">
-                    <button class="btn btn-secondary" style="background-color:#f8f8ff; border-color:#f8f8ff; color:black" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj się
-                    </button>
-                </form>
+                <li class="nav-item">
+                    <a class="nav-link" th:inline="text" style="color:lightskyblue;">Jesteś zalogowany jako <b style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
+                </li>
+                <li class="nav-item">
+                    <form id="LogOutForm" method="post" th:action="@{/index}">
+                        <button class="btn btn-secondary btn-custom" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj się</button>
+                    </form>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 
+<div class="container container-custom">
+    <div class="row justify-content-center">
+        <div class="col-md-10 mt-5 content-box text-center">
+            <h1>Twoje dane zapisane w naszych archiwach są widoczne poniżej</h1>
+            <p style="font-size:20px">W przypadku niezgodności i potrzeby aktualizacji, skontaktuj się z kierownictwem</p>
+        </div>
+    </div>
+</div>
 
-<div class="container">
-    <div class="row">
-
-        <div class="col-md-10 mt-5">
-            <div class="form-group">
-                <label style="font-size:30px" th:inline="text">Twoje dane zapisane w naszych archiwach są widoczne poniżej</label>
-                <div style="font-size:20px">W przypadku niezgodności i potrzeby aktualizacji, skontaktuj się z kierownictwem</div>
+<div class="container container-custom">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="content-box table-container">
+                <div class="card-header text-center">
+                    <h2>Twoje dane</h2>
+                </div>
+                <div class="card-body">
+                    <table id="pracownik" class="datatable-table table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Rodzaj danych</th>
+                            <th>Dane</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Imię</td>
+                            <td th:text="${pracownik.imie}">Imię</td>
+                        </tr>
+                        <tr>
+                            <td>Drugie imię</td>
+                            <td th:text="${pracownik.drugie_imie}">Drugie imię</td>
+                        </tr>
+                        <tr>
+                            <td>Nazwisko</td>
+                            <td th:text="${pracownik.nazwisko}">Nazwisko</td>
+                        </tr>
+                        <tr>
+                            <td>Data urodzenia</td>
+                            <td th:text="${pracownik.data_urodzenia}">Data urodzenia</td>
+                        </tr>
+                        <tr>
+                            <td>PESEL</td>
+                            <td th:text="${pracownik.pesel}">PESEL</td>
+                        </tr>
+                        <tr>
+                            <td>Płeć</td>
+                            <td th:text="${pracownik.plec}">Płeć</td>
+                        </tr>
+                        <tr>
+                            <td>Adres e-mail</td>
+                            <td th:text="${pracownik.adres_email}">Adres e-mail</td>
+                        </tr>
+                        <tr>
+                            <td>Stanowisko</td>
+                            <td th:text="${pracownik.stanowisko}">Stanowisko</td>
+                        </tr>
+                        <tr>
+                            <td>Data zatrudnienia</td>
+                            <td th:text="${pracownik.data_zatrudnienia}">Data zatrudnienia</td>
+                        </tr>
+                        <tr>
+                            <td>Nr konta</td>
+                            <td th:text="${pracownik.nr_konta}">Nr konta</td>
+                        </tr>
+                        <tr>
+                            <td>Nr telefonu</td>
+                            <td th:text="${pracownik.numer_telefonu}">Nr telefonu</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<br/><br>
-
-<div class="card mb-4" id="card1">
-    <div class="card-header">
-        Twoje dane
-    </div>
-    <div class="card-body">
-        <table id="pracownik" class="datatable-table" border="1" cellpadding="10">
-
-            <thead>
-            <tr>
-                <th>Rodzaj danych</th>
-                <th>Dane</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Imię</td>
-                <td th:text="${pracownik.imie}">Imię</td>
-            </tr>
-            <tr>
-                <td>Drugie imię</td>
-                <td th:text="${pracownik.drugie_imie}">Drugie imię</td>
-            </tr>
-            <tr>
-                <td>Nazwisko</td>
-                <td th:text="${pracownik.nazwisko}">Nazwisko</td>
-            </tr>
-            <tr>
-                <td>Data urodzenia</td>
-                <td th:text="${pracownik.data_urodzenia}">Data urodzenia</td>
-            </tr>
-            <tr>
-                <td>PESEL</td>
-                <td th:text="${pracownik.pesel}">PESEL</td>
-            </tr>
-            <tr>
-                <td>Płeć</td>
-                <td th:text="${pracownik.plec}">Płeć</td>
-            </tr>
-            <tr>
-                <td>Adres e-mail</td>
-                <td th:text="${pracownik.adres_email}">Adres e-mail</td>
-            </tr>
-            <tr>
-                <td>Stanowisko</td>
-                <td th:text="${pracownik.stanowisko}">Stanowisko</td>
-            </tr>
-            <tr>
-                <td>Data zatrudnienia</td>
-                <td th:text="${pracownik.data_zatrudnienia}">Data zatrudnienia</td>
-            </tr>
-            <tr>
-                <td>Nr konta</td>
-                <td th:text="${pracownik.nr_konta}">Nr konta</td>
-            </tr>
-            <tr>
-                <td>Nr telefonu</td>
-                <td th:text="${pracownik.numer_telefonu}">Nr telefonu</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/script.js}"></script>
 <script th:src="@{/js/logout.js}"></script>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script>
@@ -139,7 +158,6 @@
         $('#pracownik').DataTable();
     });
 </script>
-
 
 </body>
 </html>

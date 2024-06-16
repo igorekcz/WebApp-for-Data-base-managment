@@ -1,5 +1,5 @@
-var warningTimeout = 5000;
-var timoutNow = 5000;
+var warningTimeout = 50000;
+var timoutNow = 50000;
 var warningTimerID,timeoutTimerID;
 var logoutUrl = 'index'; // URL to logout page.
 

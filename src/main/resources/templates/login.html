@@ -1,81 +1,107 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8"/>
-  <title>Login Page</title>
-
-  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
-
+  <title>Strona logowania</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}"/>
+  <style>
+    body {
+      background: rgb(100, 100, 100) url('/img/bg.webp') no-repeat center center fixed;
+      background-size: cover;
+      background-blend-mode: lighten;
+      padding-top: 56px;
+    }
+    .container-custom {
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+    .navbar-brand {
+      font-size: 1.5em;
+    }
+    .form-custom {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .btn-custom {
+      background-color: #007bff;
+      border: none;
+      font-size: 1em;
+    }
+    .btn-custom-secondary {
+      background-color: #6c757d;
+      border: none;
+      font-size: 1em;
+      color: #fff; /* Ensure text color is white for contrast */
+    }
+    .btn-custom-secondary-dark {
+      background-color: #343a40;
+      border: none;
+      font-size: 1em;
+    }
+    .error-message {
+      color: red;
+      margin-bottom: 15px;
+    }
+  </style>
 </head>
 <body>
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
     <img src="/img/Logo.png" alt="Logo" style="max-width: 100px; max-height: 100px;">
     <a class="navbar-brand" href="/">Oceanarium Warszawskie</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-            aria-controls="navbarResponsive"
-            aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
-
         <li class="nav-item">
-          <a class="nav-link" th:href="@{/index}">Home</a>
+          <a class="nav-link" th:href="@{/index}">Strona główna</a>
         </li>
-
         <li class="nav-item active">
-          <a class="nav-link" href="#">Login
+          <a class="nav-link" href="#">Logowanie
             <span class="sr-only">(current)</span>
           </a>
         </li>
-
       </ul>
     </div>
   </div>
 </nav>
 
+<div class="container container-custom">
+  <div class="row justify-content-center">
+    <div class="col-md-6 mt-5">
+      <div class="card form-custom">
+        <div class="card-body">
+          <h5 class="card-title text-center">Logowanie</h5>
+          <form method="post" th:action="@{/login}">
+            <div class="form-group">
+              <label for="login">Login:</label>
+              <input id="login" type="text" placeholder="Wpisz login" autocomplete="off" class="form-control" name="username"/>
+            </div>
 
-<div class="container">
+            <div class="form-group">
+              <label for="password">Hasło:</label>
+              <input id="password" type="password" placeholder="Wpisz hasło" autocomplete="off" class="form-control" name="password"/>
+            </div>
 
-  <div class="row">
-    <div class="col-md-4 mt-5">
+            <div th:if="${param.error}" class="error-message">
+              BŁĄD: Nieprawidłowy login lub hasło!
+            </div>
 
-      <form method="post" th:action="@{/login}">
-
-        <div class="form-group">
-          <label for="login">Login:</label>
-          <input id="login" type="text" placeholder="Enter login" autocomplete="off" class="form-control" name="username"/>
+            <button class="btn btn-custom btn-block" type="submit" value="Sign In">Zaloguj się</button>
+          </form>
+          <div class="text-center mt-3">
+            <a href="/register" class="btn btn-custom-secondary-dark btn-block">Stwórz nowe konto</a>
+          </div>
         </div>
-
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input id="password" type="password" placeholder="Enter your password" autocomplete="off" class="form-control" name="password"/>
-        </div>
-
-        <div th:if="${param.error}" style="color:red; margin-bottom:15px">
-          ERROR: Invalid username or password!
-        </div>
-
-        <button class="btn btn-primary" type="submit" value="Sign In">Zaloguj się</button>
-      </form>
-
-
-
+      </div>
     </div>
   </div>
 </div>
-
-<style>
-  body {
-    background: rgb(100, 100, 100) url('/img/bg.webp') no-repeat center center fixed;
-    background-size: cover;
-    background-blend-mode: lighten;
-  }
-</style>
-
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>

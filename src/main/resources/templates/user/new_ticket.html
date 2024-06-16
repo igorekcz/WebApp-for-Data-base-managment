@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Ticket creator</title>
+    <title>Nowy bilet</title>
 
     <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
     <link th:rel="stylesheet" th:href="@{/css/styles.css}" />
@@ -12,10 +12,10 @@
 <body>
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg nav-user static-top" >
+<nav class="navbar navbar-expand-lg nav-user static-top">
     <div class="container">
         <img src="/img/Logo.png" alt="Logo" style="max-width: 100px; max-height: 100px;">
-        <a class="navbar-brand"  href="/">Oceanarium Warszawskie</a>
+        <a class="navbar-brand" href="/">Oceanarium Warszawskie</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
                             style="text-transform:capitalize">[[${#httpServletRequest.remoteUser}]]</b></a>
                 </li>
                 <form id="LogOutForm" method="post" th:action="@{/index}">
-                    <button th:align="center" class="btn btn-primary" style="background-color:#f8f8ff; border-color:#f8f8ff; color:black" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj się
+                    <button class="btn btn-secondary" style="background-color:#f8f8ff; border-color:#f8f8ff; color:black" type="submit" onclick="successfullyLogout()" value="Sign Out">Wyloguj się
                     </button>
                 </form>
             </ul>
@@ -47,37 +47,41 @@
     </div>
 </nav>
 
-
-<div align="center">
-    <h1>Skonfiguruj bilet</h1>
-    <br/>
-
-    <form action="#" th:action="@{/main_user/save}" th:object="${konfigurator}" method="post" oninput="updateTotal()">
-        <table class="table-container" border="1" cellpadding="10" style="background: rgba(255,255,255,0.5)">
-            <tr>
-                <td>Data planowego wejścia (Bilet jest ważny 30 dni od tej daty):</td>
-                <td><input id="date1" type="date" th:field="*{data_wejscia}" required></td>
-            </tr>
-            <tr>
-                <td>Ilość biletów normalnych (100 zł):</td>
-                <td><input type="number" th:field="*{ilosc_normal}" min="0"></td>
-            </tr>
-            <tr>
-                <td>Ilość biletów ulgowych (50 zł):</td>
-                <td><input type="number" th:field="*{ilosc_ulg}" min="0"></td>
-            </tr>
-            <tr>
-                <td colspan="2">Do zapłaty: <span id="totalPrice">0 zł</span></td>
-            </tr>
-            <tr>
-                <td colspan="2" style="justify-content: center"><button class="btn btn-primary" type="submit">Zapłać</button></td>
-            </tr>
-        </table>
-    </form>
-
-
+<div class="container container-custom">
+    <div class="row justify-content-center">
+        <div class="col-md-10 mt-5">
+            <div class="content-box">
+                <div class="form-group">
+                    <h1 class="text-center">Skonfiguruj bilet</h1>
+                </div>
+                <div class="card-body">
+                    <form action="#" th:action="@{/main_user/save}" th:object="${konfigurator}" method="post" oninput="updateTotal()">
+                        <table class="table table-bordered" style="background: rgba(255,255,255,0.5)">
+                            <tr>
+                                <td>Data planowego wejścia (Bilet jest ważny 30 dni od tej daty):</td>
+                                <td><input id="date1" type="date" th:field="*{data_wejscia}" required></td>
+                            </tr>
+                            <tr>
+                                <td>Ilość biletów normalnych (100 zł):</td>
+                                <td><input id="ilosc_normal" type="number" th:field="*{ilosc_normal}" min="0"></td>
+                            </tr>
+                            <tr>
+                                <td>Ilość biletów ulgowych (50 zł):</td>
+                                <td><input id="ilosc_ulg" type="number" th:field="*{ilosc_ulg}" min="0"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Do zapłaty: <span id="totalPrice">0 zł</span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-center"><button class="btn btn-primary" type="submit">Zapłać</button></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
@@ -101,6 +105,7 @@
 
     today = yyyy + '-' + mm + '-' + dd;
     document.getElementById("date1").setAttribute("min", today);
+
     function updateTotal() {
         var normalPrice = 100;
         var reducedPrice = 50;
